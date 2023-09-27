@@ -5,6 +5,7 @@ Para las prácticas es preciso instalar las siguientes librerías:
 En algunas distribuciones antiguas es también necesario instalar:
 - `libgl1-mesa-dev`
 Para ellos en un entorno linux moderno será tan sencillo como ejecutar los comandos correspodientes al control de paquetes.
+
 `apt install freeglut3 freeglut3-dev`
 
 Opcionalmente, se recomienda el crear un archivo makefile que facilite la compilación de los ejemplos.El contenido podría ser similar al siguiente:
