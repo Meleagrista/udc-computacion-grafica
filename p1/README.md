@@ -2,6 +2,7 @@
 Para las prácticas es preciso instalar las siguientes librerías:
 - `freeglut3`
 - `freeglut3-dev`
+
 En algunas distribuciones antiguas es también necesario instalar:
 - `libgl1-mesa-dev`
 
@@ -17,4 +18,5 @@ ejemplo : ejemplo.c
 	  gcc -o $@ $< $LIBS
 ```
 En otro caso será necesario escribir la siguiente linea de cada vez que se necesite compilar:
+
 `gcc ejemplo.c -o ejemplo  -lGL -lGLU -lglut`
