@@ -1,3 +1,4 @@
+//gcc p1a.c -o out -lGL -lGLU -lglut
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
