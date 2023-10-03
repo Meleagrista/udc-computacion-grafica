@@ -4,16 +4,22 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-GLint ancho=400;
-GLint alto=400;
+GLint ancho = 400;
+GLint alto = 400;
 
-float angleX = 0.0f; // Ángulo de rotación en el eje X
-float angleY = 0.0f; // Ángulo de rotación en el eje Y
-float angleZ = 0.0f; // Ángulo de rotación en el eje Z
+/* Idealmente... 
+ * 1. Tendría que guardar cada pieza o mas bien grupo de piezas: esfera + cubo como instancias de una clase.
+ * 2. Añadir a dicho 'prefab' las variables que la afectan, en este caso los angulos.
+ * 3. Crear una agrupación mayor donde meter todos los componentes y donde poder seleccionarlos.
+ */
 
-float angleX2 = 0.0f; // Ángulo de rotación en el eje X
-float angleY2 = 0.0f; // Ángulo de rotación en el eje Y
-float angleZ2 = 0.0f; // Ángulo de rotación en el eje Z
+int arm = 0;
+int arm_num = 2;
+int arm_now = 0;
+
+float anglesX[] = {0.0f, 0.0f};
+float anglesY[] = {0.0f, 0.0f};
+float anglesZ[] = {0.0f, 0.0f};
 
 int hazPerspectiva = 0;
 
@@ -26,7 +32,7 @@ void reshape(int width, int height)
     if(hazPerspectiva)
         gluPerspective(60.0f, (GLfloat)width/(GLfloat)height, 1.0f, 20.0f);
     else       
-        glOrtho(-4,4, -4, 4, 1, 10);
+        glOrtho(-6, 6, -6, 6, -10, 15);
 
     glMatrixMode(GL_MODELVIEW);
  
@@ -35,51 +41,42 @@ void reshape(int width, int height)
 }
 
 void drawSphere() {
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
-    
-    glTranslatef(0.0f, -1.0f, -3.0f); // Transladar la escena hacia afuera de la pantalla
-    glRotatef(angleX, 1.0f, 0.0f, 0.0f); // Rotación en el eje X
-    glRotatef(angleY, 0.0f, 1.0f, 0.0f); // Rotación en el eje Y
-    glRotatef(angleZ, 0.0f, 0.0f, 1.0f); // Rotación en el eje Z
+
+    if(arm_now == 0)
+    {
+        glTranslatef(0.0f, 0.0f, 0.0f);
+        glRotatef(anglesX[0], 1.0f, 0.0f, 0.0f);
+        glRotatef(anglesY[0], 0.0f, 1.0f, 0.0f);
+        glRotatef(anglesZ[0], 0.0f, 0.0f, 1.0f);
+    }
+    else if(arm_now == 1)
+    {
+        glTranslatef(1.5f, 0.0f, 0.0f);
+    }
     
     glColor3f(1.0f, 0.0f, 0.0f); // Color rojo
-    glutSolidSphere(0.5, 30, 30); // Dibuja una esfera de radio 0.5
-    
-    //glutSwapBuffers();
+    glutSolidSphere(0.5, 30, 30);
 }
 
-void drawSphereToRight() {
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
-    
-    glTranslatef(1.0f, 0.0f, 0.0f); // Transladar el cubo a la derecha
-    
-    glColor3f(1.0f, 0.0f, 0.0f); // Color rojo
-    glutSolidSphere(0.5, 30, 30); // Dibuja una esfera de radio 0.5
-    
-    //glutSwapBuffers();
-}
-
-void drawCubeToRight(GLboolean secondSquare)
+void drawCube()
 {
     glMatrixMode(GL_MODELVIEW);
     
-    if(secondSquare)
+    if(arm_now == 1)
     {
-        glRotatef(angleX2, 1.0f, 0.0f, 0.0f); // Rotación en el eje X
-        glRotatef(angleY2, 0.0f, 1.0f, 0.0f); // Rotación en el eje Y
-        glRotatef(angleZ2, 0.0f, 0.0f, 1.0f); // Rotación en el eje Z
+        glRotatef(anglesX[1], 1.0f, 0.0f, 0.0f);
+        glRotatef(anglesY[1], 0.0f, 1.0f, 0.0f);
+        glRotatef(anglesZ[1], 0.0f, 0.0f, 1.0f);
     }
-    
 
-    glTranslatef(1.0f, 0.0f, 0.0f); // Transladar el cubo a la derecha
+    glTranslatef(1.5f, 0.0f, 0.0f);
+    glPushMatrix();
+    glScalef(2.0f, 1.0f, 1.0f);
 
-    glColor3f(0.0f, 0.0f, 1.0f); // Color rojo (default color)
+    glColor3f(0.0f, 0.0f, 1.0f); // Color rojo
 
-    // Front face (positive Z face)
+    // Cara frontal
     glBegin(GL_QUADS);
     glVertex3f(-0.5f, -0.5f, 0.5f);
     glVertex3f(0.5f, -0.5f, 0.5f);
@@ -87,7 +84,7 @@ void drawCubeToRight(GLboolean secondSquare)
     glVertex3f(-0.5f, 0.5f, 0.5f);
     glEnd();
 
-    // Back face (negative Z face)
+    // Cara trasera
     glBegin(GL_QUADS);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glVertex3f(0.5f, -0.5f, -0.5f);
@@ -95,7 +92,7 @@ void drawCubeToRight(GLboolean secondSquare)
     glVertex3f(-0.5f, 0.5f, -0.5f);
     glEnd();
 
-    // Top face (positive Y face)
+    // Cara superior
     glBegin(GL_QUADS);
     glVertex3f(-0.5f, 0.5f, 0.5f);
     glVertex3f(0.5f, 0.5f, 0.5f);
@@ -103,7 +100,7 @@ void drawCubeToRight(GLboolean secondSquare)
     glVertex3f(-0.5f, 0.5f, -0.5f);
     glEnd();
 
-    // Bottom face (negative Y face)
+    // Cara fondo
     glBegin(GL_QUADS);
     glVertex3f(-0.5f, -0.5f, 0.5f);
     glVertex3f(0.5f, -0.5f, 0.5f);
@@ -111,9 +108,9 @@ void drawCubeToRight(GLboolean secondSquare)
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
-    glColor3f(0.0f, 1.0f, 0.0f); // Green color for the right face
+    glColor3f(0.0f, 1.0f, 0.0f); // Color verde
 
-    // Right face (positive X face)
+    // Cara derecha
     glBegin(GL_QUADS);
     glVertex3f(0.5f, -0.5f, 0.5f);
     glVertex3f(0.5f, 0.5f, 0.5f);
@@ -121,9 +118,9 @@ void drawCubeToRight(GLboolean secondSquare)
     glVertex3f(0.5f, -0.5f, -0.5f);
     glEnd();
 
-    glColor3f(0.0f, 1.0f, 0.0f); // Green color for the left face
+    glColor3f(0.0f, 1.0f, 0.0f); // Color verde
 
-    // Left face (negative X face) - Set this to green
+    // Cara izquierda
     glBegin(GL_QUADS);
     glVertex3f(-0.5f, -0.5f, 0.5f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
@@ -131,17 +128,21 @@ void drawCubeToRight(GLboolean secondSquare)
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glEnd();
 
-    //glutSwapBuffers();
+    glPopMatrix();
 }
 
 void display()
 { 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+
+    arm_now = 0; //Creamos el primer set.
     drawSphere();
-    drawCubeToRight(GL_FALSE);
-    drawSphereToRight();
-    drawCubeToRight(GL_TRUE);
+    drawCube();
+
+    arm_now = 1; //Creamos el segundo set.
+    drawSphere();
+    drawCube();
  
     glFlush();
     glutSwapBuffers();
@@ -154,72 +155,40 @@ void init()
     ancho = 400;
     alto = 400;
 }
- 
 
 void idle()
 {
     display();
 }
- 
-/*void specialKeys(int key, int x, int y) {
-    switch (key) {
-    case GLUT_KEY_UP:
-        angleX += 1.0f;
-        break;
-    case GLUT_KEY_DOWN:
-        angleX -= 1.0f;
-        break;
-    case GLUT_KEY_LEFT:
-        angleY += 1.0f;
-        break;
-    case GLUT_KEY_RIGHT:
-        angleY -= 1.0f;
-        break;
-    }
-    glutPostRedisplay();
-}*/
 
 void keyboard(unsigned char key, int x, int y) {
-    switch (key) {
-    // TECLAS SEDUNDO CUBO
-    case 'q':
-        angleX += 1.0f;
-        break;
-    case 'a':
-        angleX -= 1.0f;
-        break;
-    case 'w':
-        angleY += 1.0f;
-        break;
-    case 's':
-        angleY -= 1.0f;
-        break;
-    case 'e':
-        angleZ += 1.0f;
-        break;
-    case 'd':
-        angleZ -= 1.0f;
-        break;
-    // TECLAS SEDUNDO CUBO
-    case 'u':
-        angleX2 += 1.0f;
-        break;
-    case 'j':
-        angleX2 -= 1.0f;
-        break;
-    case 'i':
-        angleY2 += 1.0f;
-        break;
-    case 'k':
-        angleY2 -= 1.0f;
-        break;
-    case 'o':
-        angleZ2 += 1.0f;
-        break;
-    case 'l':
-        angleZ2 -= 1.0f;
-        break;
+    switch (key) 
+    {
+        case '1':
+            arm++;
+            if(arm == arm_num)
+                arm = 0;
+            break;
+        case 'q':
+            anglesX[arm] += 1.0f;
+            break;
+        case 'a':
+            anglesX[arm] -= 1.0f;
+            break;
+        case 'w':
+            anglesY[arm] += 1.0f;
+            break;
+        case 's':
+            anglesY[arm] -= 1.0f;
+            break;
+        case 'e':
+            anglesZ[arm] += 1.0f;
+            break;
+        case 'd':
+            anglesZ[arm] -= 1.0f;
+            break;
     }
+
     glutPostRedisplay();
 }
  
@@ -229,12 +198,15 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB| GLUT_DEPTH);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(ancho, alto);
-    glutCreateWindow("Pierna");
+    glutCreateWindow("Brazo robotico");
+
     init();
+
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutIdleFunc(idle);
     glutKeyboardFunc(keyboard);
     glutMainLoop();
+
     return 0;
 }
