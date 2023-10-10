@@ -13,8 +13,8 @@ GLint alto = 400;
  * 3. Crear una agrupación mayor donde meter todos los componentes y donde poder seleccionarlos.
  */
 
-int arm = 0;
-int arm_num = 2;
+int piece_index = 0;
+int pieces = 2;
 int arm_now = 0;
 
 float anglesX[] = {0.0f, 0.0f};
@@ -165,27 +165,27 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) 
     {
         case '1':
-            arm++;
-            if(arm == arm_num)
-                arm = 0;
+            piece_index++;
+            if(piece_index == pieces)
+                piece_index = 0;
             break;
         case 'q':
-            anglesX[arm] += 1.0f;
+            anglesX[piece_index] += 1.0f;
             break;
         case 'a':
-            anglesX[arm] -= 1.0f;
+            anglesX[piece_index] -= 1.0f;
             break;
         case 'w':
-            anglesY[arm] += 1.0f;
+            anglesY[piece_index] += 1.0f;
             break;
         case 's':
-            anglesY[arm] -= 1.0f;
+            anglesY[piece_index] -= 1.0f;
             break;
         case 'e':
-            anglesZ[arm] += 1.0f;
+            anglesZ[piece_index] += 1.0f;
             break;
         case 'd':
-            anglesZ[arm] -= 1.0f;
+            anglesZ[piece_index] -= 1.0f;
             break;
     }
 
