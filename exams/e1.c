@@ -18,38 +18,241 @@ int hazPerspectiva = 0;
 
 // CUSTOM FUNCTIONS
 
-void drawCone(GLdouble radious, GLdouble height)
+void drawFourCubes(GLdouble base, GLdouble space)
+{
+    glTranslatef(0.0f, 0.0f, - base / 2);
+
+    GLfloat size = base / 2.0;  // Divide by 2 to make the size adjustment symmetric.
+
+    for(int i = 0; i < 4; i++)
+    {
+        glPushMatrix();
+
+        switch(i)
+        {
+            case 0:
+                glTranslatef(space, space, 0.0f);
+                break;
+            case 1:
+                glTranslatef(-space, space, 0.0f);
+                break;
+            case 2:
+                glTranslatef(-space, -space, 0.0f);
+                break;
+            case 3:
+                glTranslatef(space, -space, 0.0f);
+                break;            
+        }
+        
+        glColor3f(0.949f, 0.937f, 0.694f); // Light Pastel Yellow
+
+        // Cara frontal
+        glBegin(GL_QUADS);
+        glVertex3f(-size, -size, size);
+        glVertex3f(size, -size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(-size, size, size);
+        glEnd();
+
+        // Cara trasera
+        glBegin(GL_QUADS);
+        glVertex3f(-size, -size, -size);
+        glVertex3f(size, -size, -size);
+        glVertex3f(size, size, -size);
+        glVertex3f(-size, size, -size);
+        glEnd();
+
+        glColor3f(0.886f, 0.874f, 0.549f); // Darker Pastel Yellow
+
+        // Cara frontal
+        glBegin(GL_QUADS);
+        glVertex3f(-size, size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(size, size, -size);
+        glVertex3f(-size, size, -size);
+        glEnd();
+
+        // Cara trasera
+        glBegin(GL_QUADS);
+        glVertex3f(-size, -size, size);
+        glVertex3f(size, -size, size);
+        glVertex3f(size, -size, -size);
+        glVertex3f(-size, -size, -size);
+        glEnd();
+
+        glColor3f(0.886f, 0.874f, 0.549f); // Darker Pastel Yellow
+
+        // Cara derecha
+        glBegin(GL_QUADS);
+        glVertex3f(size, -size, size);
+        glVertex3f(size, size, size);
+        glVertex3f(size, size, -size);
+        glVertex3f(size, -size, -size);
+        glEnd();
+
+        // Cara izquierda
+        glBegin(GL_QUADS);
+        glVertex3f(-size, -size, size);
+        glVertex3f(-size, size, size);
+        glVertex3f(-size, size, -size);
+        glVertex3f(-size, -size, -size);
+        glEnd();
+
+        glPopMatrix();
+    }
+
+}
+
+void drawInverseCone(GLdouble radious, GLdouble height, GLboolean axis, GLfloat angle_correction)
+{
+    glRotatef(90.0 - angle_correction, 1.0f, 0.0f, 0.0f);
+
+    glPushMatrix();
+
+    //glTranslatef(0.0f, 0.0f, - height / 2);
+
+    if(axis)
+    {
+        glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+    }
+    
+    glColor3f(0.678f, 0.847f, 0.706f); // Light Pastel Green
+
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -0.01f);
+    glutSolidCylinder(radious - 0.1, 0.1, 20, 20);
+    glPopMatrix();
+
+    glColor3f(0.549f, 0.729f, 0.529f); // Darker Pastel Green
+
+    glutSolidCone(radious, height, 20, 20); // Draw a solid cone
+
+    glPopMatrix();
+
+    if(axis)
+    {
+        glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+    }
+}
+
+void drawArm(GLdouble base, GLdouble length)
 {
     glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -5.0f); // Translate to position the cone
+    glTranslatef(0.0f, (length * base)/2, 0.0f);
+    glScalef(1.0f, length, 1.0f);
 
-    glutSolidCone(1.0, 3.0, 20, 20); // Draw a solid cone
+    GLfloat size = base / 2.0;  // Divide by 2 to make the size adjustment symmetric.
+
+    // Light Gray
+    glColor3f(0.8f, 0.8f, 0.8f);
+
+    // Cara frontal
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, size);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(-size, size, size);
+    glEnd();
+
+    // Cara trasera
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, -size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(size, size, -size);
+    glVertex3f(-size, size, -size);
+    glEnd();
+
+    // Light Gray
+    glColor3f(0.7f, 0.7f, 0.7f);
+
+    // Cara superior
+    glBegin(GL_QUADS);
+    glVertex3f(-size, size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(size, size, -size);
+    glVertex3f(-size, size, -size);
+    glEnd();
+
+    // Cara fondo
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, size);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(-size, -size, -size);
+    glEnd();
+
+    glColor3f(0.9f, 0.9f, 0.9f);
+
+    // Cara derecha
+    glBegin(GL_QUADS);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(size, size, -size);
+    glVertex3f(size, -size, -size);
+    glEnd();
+
+    // Cara izquierda
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, size);
+    glVertex3f(-size, size, size);
+    glVertex3f(-size, size, -size);
+    glVertex3f(-size, -size, -size);
+    glEnd();
 
     glPopMatrix();
 }
 
-void drawCylinder(GLdouble radious, GLdouble height)
+void drawTestUnit(GLdouble height)
 {
-    //glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslatef(0.0f, height + 1.0f, 0.0f);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glutSolidSphere(1.0f, 20, 20);
+}
 
-    glTranslatef(0.0f, 0.0f, 0.0f);
-    glRotatef(90.0, 1.0f, 0.0f, 0.0f);
+void drawCone(GLdouble radious, GLdouble height, GLboolean axis, GLfloat angle_correction)
+{
+    glRotatef(270.0 - angle_correction, 1.0f, 0.0f, 0.0f);
 
-    // Save the current matrix (for restoring the original position after rotation)
-    glPushMatrix();
-
-    // Translate to the center of the cylinder
-    glTranslatef(0.0f, 0.0f, height / 2); // Assuming the cylinder's height is 4.0 units
-
-    // Apply rotation transformation (e.g., 45 degrees around the y-axis)
-    glRotatef(angleX, 1.0f, 0.0f, 0.0f);
-    glRotatef(angleY, 0.0f, 1.0f, 0.0f);
-    glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
-
-    // Translate to the corresponding position of the cylinder
-    glTranslatef(0.0f, 0.0f, - height / 2); // Assuming the cylinder's height is 4.0 units
-
+    if(axis)
+    {
+        glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+    }
     
+    // Light Pastel Blue
+    glColor3f(0.7f, 0.9f, 1.0f);
+
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -0.01f);
+    glutSolidCylinder(radious - 0.1, 0.1, 20, 20);
+    glPopMatrix();
+
+    // Slightly Darker Blue
+    glColor3f(0.4f, 0.6f, 0.8f);
+
+    glutSolidCone(radious, height, 20, 20); // Draw a solid cone
+}
+
+void drawCylinder(GLdouble radious, GLdouble height, GLboolean axis, GLfloat angle_correction)
+{
+    glRotatef(90.0 - angle_correction, 1.0f, 0.0f, 0.0f);
+
+    // Adjustment for the center of mass
+    glTranslatef(0.0f, 0.0f, height / 2);
+    if(axis)
+    {
+        glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+    }
+    glTranslatef(0.0f, 0.0f, - height / 2);
+
     // Light Pastel Orange
     glColor3f(1.0f, 0.7f, 0.2f); // Adjust the RGB values to get a pastel orange
 
@@ -67,9 +270,13 @@ void drawCylinder(GLdouble radious, GLdouble height)
     glColor3f(0.9f, 0.6f, 0.1f); // Adjust the RGB values to make it slightly darker
 
     glutSolidCylinder(radious, height, 20, 20);
+}
 
-    // Restore the original position
-    glPopMatrix();
+void axisRotation()
+{
+    glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+    glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+    glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
 }
 
 void keyboard(unsigned char key, int x, int y) 
@@ -127,7 +334,31 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    drawCylinder(4.0, 2.0);
+    float cone_height = 3.0f;
+
+    drawCylinder(4.0, 1.5, GL_TRUE, 0.0);
+    drawCone(3.5, cone_height, GL_FALSE, 90.0);
+
+    float cube_size = 1.0f;
+    float cube_length = 6.0f;
+
+    // Position adjustments
+    glRotatef(90.0, 1.0f, 0.0f, 0.0f);
+    glTranslatef(0.0, cone_height + cube_size / 2, 0.0f);
+    glRotatef(-90.0, 0.0f, 0.0f, 1.0f);
+    
+    drawArm(cube_size, cube_length);
+
+    float small_cone_height = 2.0f;
+
+    // Position adjustments
+    glTranslatef(0.0, cube_length * cube_size, 0.0f);
+    glTranslatef(- small_cone_height + cube_size / 2, 0.0f, 0.0f);
+    glRotatef(90.0, 0.0f, 0.0f, 1.0f);
+
+    drawInverseCone(2.5f, small_cone_height, GL_FALSE, 0.0);
+
+    drawFourCubes(1.0f, 1.0f);
 
     glFlush();
     glutSwapBuffers();
