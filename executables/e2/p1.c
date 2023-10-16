@@ -502,7 +502,6 @@ void ClickNDrag(int button, int state, int x, int y) {
         anglesZ[selectedPiece] += x - frameX;
         anglesX[selectedPiece] += y - frameY;
     } 
-      
 }
 
 
