@@ -13,7 +13,7 @@ int frameX;
 int frameY;
 
 GLfloat coneAngle[] = {0.0f, 0.0f};
-GLfloat objectAngle = 0.0f;
+GLfloat objectAngleY = 0.0f;
 GLfloat armAngle = 0.0f;
 
 GLboolean coneSpin = GL_TRUE;
@@ -229,7 +229,7 @@ void drawCylinder(GLdouble radious, GLdouble height, GLboolean axis)
     glTranslatef(0.0f, 0.0f, height / 2);
 
     if(axis)
-        glRotatef(objectAngle, 1.0f, 0.0f, 0.0f);
+        glRotatef(objectAngleY, 1.0f, 0.0f, 0.0f);
 
     glTranslatef(0.0f, 0.0f, - height / 2);
 
@@ -296,7 +296,7 @@ void rotate(int button, int state, int x, int y) {
         if(state == GLUT_DOWN)  
             frameY = y; 
         if(state == GLUT_UP)  
-            objectAngle += y - frameY;
+            objectAngleY += y - frameY;
     }
 }
 

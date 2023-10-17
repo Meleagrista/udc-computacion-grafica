@@ -5,24 +5,22 @@
 #include <GL/glut.h>
 #include <GL/freeglut.h>
 
-// Global variables to store the window dimensions
 GLint ancho = 400;
 GLint alto = 400;
 
 int frameX;
 int frameY;
 
-GLfloat coneAngle[] = {0.0f, 0.0f};
-GLfloat objectAngle = 0.0f;
-GLfloat armAngle = 0.0f;
+GLfloat objectAngleY = 0.0f;
+GLfloat objectAngleX = 0.0f;
 
-GLboolean coneSpin = GL_TRUE;
-GLboolean coneSpinReverse = GL_FALSE;
-GLfloat coneSpinSpeed = 1.0f;
+GLfloat armAngle = 0.0f;
+GLboolean armSpin = GL_TRUE;
+GLboolean armSpinReverse = GL_FALSE;
+GLfloat armSpinSpeed = 1.0f;
 
 GLfloat cubeColors[] = {0.949f, 0.937f, 0.694f, 0.886f, 0.874f, 0.549f};
 
-// Variable to control whether to use perspective projection
 int hazPerspectiva = 0;
 
 // CUSTOM FUNCTIONS
@@ -31,7 +29,7 @@ void drawFourCubes(GLdouble base, GLdouble space)
 {
     glTranslatef(0.0f, 0.0f, -base / 2);
 
-    GLfloat size = base / 2.0; // Divide by 2 to make the size adjustment symmetric.
+    GLfloat size = base / 2.0;
 
     for (int i = 0; i < 4; i++)
     {
@@ -53,9 +51,8 @@ void drawFourCubes(GLdouble base, GLdouble space)
             break;
         }
 
-        glColor3f(cubeColors[0], cubeColors[1], cubeColors[2]);
+        glColor3f(cubeColors[3], cubeColors[4], cubeColors[5]); // Colores para cara superior
 
-        // Cara frontal
         glBegin(GL_QUADS);
         glVertex3f(-size, -size, size);
         glVertex3f(size, -size, size);
@@ -63,7 +60,6 @@ void drawFourCubes(GLdouble base, GLdouble space)
         glVertex3f(-size, size, size);
         glEnd();
 
-        // Cara trasera
         glBegin(GL_QUADS);
         glVertex3f(-size, -size, -size);
         glVertex3f(size, -size, -size);
@@ -71,7 +67,7 @@ void drawFourCubes(GLdouble base, GLdouble space)
         glVertex3f(-size, size, -size);
         glEnd();
 
-        glColor3f(cubeColors[3], cubeColors[4], cubeColors[5]);
+        glColor3f(cubeColors[0], cubeColors[1], cubeColors[2]); // Colores para caras laterales
 
         // Cara frontal
         glBegin(GL_QUADS);
@@ -89,7 +85,7 @@ void drawFourCubes(GLdouble base, GLdouble space)
         glVertex3f(-size, -size, -size);
         glEnd();
 
-        glColor3f(cubeColors[3], cubeColors[4], cubeColors[5]);
+        //glColor3f(cubeColors[3], cubeColors[4], cubeColors[5]);
 
         // Cara derecha
         glBegin(GL_QUADS);
@@ -111,41 +107,16 @@ void drawFourCubes(GLdouble base, GLdouble space)
     }
 }
 
-void drawInverseCone(GLdouble radious, GLdouble height, GLboolean axis)
-{
-    if (axis)
-        glRotatef(coneAngle[1], 0.0f, 0.0f, 1.0f);
-
-    glPushMatrix();
-
-    glColor3f(0.678f, 0.847f, 0.706f); // Light Pastel Green
-
-    glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -0.01f);
-    glutSolidCylinder(radious - 0.1, 0.1, 20, 20);
-    glPopMatrix();
-
-    glColor3f(0.549f, 0.729f, 0.529f); // Darker Pastel Green
-
-    glutSolidCone(radious, height, 20, 20); // Draw a solid cone
-
-    glPopMatrix();
-}
-
-// ADAPATED FUNCTIONS
-
 void drawSquareBase(GLdouble base, GLdouble height)
 {
+    GLfloat size = base / 2.0;
+
     glPushMatrix();
 
-    //glTranslatef(0.0f, (height * base) / 2, 0.0f);
     glScalef(1.0f, height, 1.0f);
 
-    GLfloat size = base / 2.0; // Divide by 2 to make the size adjustment symmetric.
+    glColor3f(0.6f, 0.6f, 0.6f); // Color para caras laterales
 
-    glColor3f(0.8f, 0.8f, 0.8f);
-
-    // Cara frontal
     glBegin(GL_QUADS);
     glVertex3f(-size, -size, size);
     glVertex3f(size, -size, size);
@@ -153,7 +124,6 @@ void drawSquareBase(GLdouble base, GLdouble height)
     glVertex3f(-size, size, size);
     glEnd();
 
-    // Cara trasera
     glBegin(GL_QUADS);
     glVertex3f(-size, -size, -size);
     glVertex3f(size, -size, -size);
@@ -161,39 +131,33 @@ void drawSquareBase(GLdouble base, GLdouble height)
     glVertex3f(-size, size, -size);
     glEnd();
 
-    glColor3f(0.6f, 0.6f, 0.6f);
-
-    // Cara superior
     glBegin(GL_QUADS);
-    glVertex3f(-size, size, size);
+    glVertex3f(size, -size, size);
     glVertex3f(size, size, size);
     glVertex3f(size, size, -size);
-    glVertex3f(-size, size, -size);
+    glVertex3f(size, -size, -size);
     glEnd();
 
-    // Cara fondo
     glBegin(GL_QUADS);
     glVertex3f(-size, -size, size);
-    glVertex3f(size, -size, size);
-    glVertex3f(size, -size, -size);
+    glVertex3f(-size, size, size);
+    glVertex3f(-size, size, -size);
     glVertex3f(-size, -size, -size);
     glEnd();
 
-    glColor3f(0.4f, 0.4f, 0.4f);
+    glColor3f(0.8f, 0.8f, 0.8f); // Color para caras superior e inferior
 
-    // Cara derecha
     glBegin(GL_QUADS);
-    glVertex3f(size, -size, size);
+    glVertex3f(-size, size, size);
     glVertex3f(size, size, size);
     glVertex3f(size, size, -size);
-    glVertex3f(size, -size, -size);
+    glVertex3f(-size, size, -size);
     glEnd();
 
-    // Cara izquierda
     glBegin(GL_QUADS);
     glVertex3f(-size, -size, size);
-    glVertex3f(-size, size, size);
-    glVertex3f(-size, size, -size);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, -size, -size);
     glVertex3f(-size, -size, -size);
     glEnd();
 
@@ -205,55 +169,47 @@ void drawArm(GLdouble base, GLdouble length, GLboolean axis)
     if (axis)
         glRotatef(armAngle, 0.0f, 0.0f, 1.0f);
 
+    GLfloat size = base / 2.0;
+
     glPushMatrix();
 
     glTranslatef(0.0f, (length * base) / 2, 0.0f);
     glScalef(1.0f, length, 1.0f);
 
-    GLfloat size = base / 2.0; // Divide by 2 to make the size adjustment symmetric.
-
-    // Light Pastel Orange
-    glColor3f(0.9f, 0.6f, 0.1f);
-
-    // Cara frontal
-    glBegin(GL_QUADS);
-    glVertex3f(-size, -size, size);
-    glVertex3f(size, -size, size);
-    glVertex3f(size, size, size);
-    glVertex3f(-size, size, size);
-    glEnd();
-
-    // Cara trasera
-    glBegin(GL_QUADS);
-    glVertex3f(-size, -size, -size);
-    glVertex3f(size, -size, -size);
-    glVertex3f(size, size, -size);
-    glVertex3f(-size, size, -size);
-    glEnd();
-
-    // Slightly Darker Orange
-    glColor3f(0.8f, 0.5f, 0.0f);
-
-    // Cara superior
-    glBegin(GL_QUADS);
-    glVertex3f(-size, size, size);
-    glVertex3f(size, size, size);
-    glVertex3f(size, size, -size);
-    glVertex3f(-size, size, -size);
-    glEnd();
-
-    // Cara fondo
-    glBegin(GL_QUADS);
-    glVertex3f(-size, -size, size);
-    glVertex3f(size, -size, size);
-    glVertex3f(size, -size, -size);
-    glVertex3f(-size, -size, -size);
-    glEnd();
-
-    // Light Pastel Orange
+    // Naranja claro
     glColor3f(1.0f, 0.7f, 0.2f);
 
-    // Cara derecha
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, size);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(-size, size, size);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, -size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(size, size, -size);
+    glVertex3f(-size, size, -size);
+    glEnd();
+
+    // Naranja oscuro
+    glColor3f(0.9f, 0.6f, 0.1f);
+
+    glBegin(GL_QUADS);
+    glVertex3f(-size, size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(size, size, -size);
+    glVertex3f(-size, size, -size);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex3f(-size, -size, size);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(-size, -size, -size);
+    glEnd();
+
     glBegin(GL_QUADS);
     glVertex3f(size, -size, size);
     glVertex3f(size, size, size);
@@ -261,7 +217,6 @@ void drawArm(GLdouble base, GLdouble length, GLboolean axis)
     glVertex3f(size, -size, -size);
     glEnd();
 
-    // Cara izquierda
     glBegin(GL_QUADS);
     glVertex3f(-size, -size, size);
     glVertex3f(-size, size, size);
@@ -275,10 +230,10 @@ void drawArm(GLdouble base, GLdouble length, GLboolean axis)
 void drawFlatCone(GLdouble length, GLdouble size, GLdouble height)
 {   
     glPushMatrix();
+
     glTranslatef(0.0f, 0.0f, - length / 2);
 
-    // Light Pastel Blue
-    glColor3f(0.7f, 0.9f, 1.0f);
+    glColor3f(0.7f, 0.9f, 1.0f); // Azul claro
 
     glBegin(GL_TRIANGLES);
     glVertex3f(0, height, 0);
@@ -292,8 +247,7 @@ void drawFlatCone(GLdouble length, GLdouble size, GLdouble height)
     glVertex3f(-size, 0, length);
     glEnd();
 
-    // Slightly Darker Blue
-    glColor3f(0.4f, 0.6f, 0.8f);
+    glColor3f(0.5f, 0.7f, 0.9f); // Azul oscuro
 
     // Cara inferior
     glBegin(GL_QUADS);
@@ -323,15 +277,22 @@ void drawFlatCone(GLdouble length, GLdouble size, GLdouble height)
 
 void drawCylinder(GLdouble radious, GLdouble height, GLboolean axis)
 {
-    // Adjustment for the center of mass
-    glTranslatef(0.0f, 0.0f, height / 2);
+    // Ajuste para que el giro sea natural
+    glTranslatef(0.0f, 0.0f, height / 2); // movimiento del render para ajustar su centro de masa.
 
     if (axis)
-        glRotatef(objectAngle, 1.0f, 0.0f, 0.0f);
+        glRotatef(objectAngleY, 0.0f, 0.0f, 1.0f);
+        glRotatef(objectAngleX, 1.0f, 0.0f, 0.0f);
 
-    glTranslatef(0.0f, 0.0f, -height / 2);
+    glTranslatef(0.0f, 0.0f, -height / 2); // reestablecimiento del estado original.
 
-    glColor3f(0.8f, 0.8f, 0.8f);
+    /* EXPLICACIÓN
+     * Aquí no puedo usar un PushMatrix() y PopMatrix() porque necesito que el nuevo angulo se mantenga.
+     * El cilcindro se creado sobre el centro de su cara, no sobre el centro de masa.
+     * Para corregirlo muevo el punto desde el que se renderiza, aplico la rotación y luego desago el movimiento.
+     */
+
+    glColor3f(0.8f, 0.8f, 0.8f); // Gris claro para las caras del cilindro
 
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, -0.01f);
@@ -343,22 +304,22 @@ void drawCylinder(GLdouble radious, GLdouble height, GLboolean axis)
     glutSolidCylinder(radious, 0.1, 20, 20);
     glPopMatrix();
 
-    glColor3f(0.6f, 0.6f, 0.6f);
+    glColor3f(0.6f, 0.6f, 0.6f); // Gris oscuro para el cuerpo del cilindro
 
     glutSolidCylinder(radious, height, 20, 20);
 }
 
-// INTERFACE AND UTILITY FUNCTIONS
+// INTERFACE FUNCTIONS
 
-void keyboard(unsigned char key, int x, int y)
+void keyboardFunc(unsigned char key, int x, int y)
 {
     switch (key)
     {
     case 's':
-        coneSpin = !coneSpin;
+        armSpin = !armSpin;
         break;
     case 'r':
-        coneSpinReverse = !coneSpinReverse;
+        armSpinReverse = !armSpinReverse;
         break;
     case 'p':
         hazPerspectiva = 1;
@@ -367,59 +328,71 @@ void keyboard(unsigned char key, int x, int y)
         hazPerspectiva = 0;
         break;
     case 'w':
-        objectAngle += 1;
+        objectAngleY += 1;
         break;    
     }
     glutPostRedisplay();
 }
 
-void spin()
+void armSpinFunc()
 {
-    if (coneSpin)
+    int gravity = 2;
+
+    if (armSpinReverse)
+        gravity = 1;
+
+    if (armSpin)
     {
-        if (coneSpinReverse)
-            coneAngle[0] += coneSpinSpeed;
+        if((int) armAngle % 90 == 0 && abs(armAngle) >= 360)
+            armAngle = 0;
+
+        if(abs(armAngle) > 270 || abs(armAngle) < 90)
+        {   
+            gravity = 1; 
+            if (armSpinReverse)
+                gravity = 2;
+        }
+       
+        if (armSpinReverse)
+            armAngle = armAngle + (armSpinSpeed / gravity);
         else
-            coneAngle[0] -= coneSpinSpeed;
-        coneAngle[1] += coneSpinSpeed * 2;
+            armAngle = armAngle - (armSpinSpeed / gravity);
+        //printf("%f\n", armAngle);    
     }
 }
 
-void rotate(int button, int state, int x, int y)
+void mouseRotateFunc(int button, int state, int x, int y)
 {
-    int frameX;
-    int frameY;
-
-    if (glutGetModifiers() == GLUT_ACTIVE_ALT)
+    if (glutGetModifiers() == GLUT_ACTIVE_CTRL)
+    {
+        if (state == GLUT_DOWN)
+            frameX = x;
+        if (state == GLUT_UP)
+            objectAngleY = objectAngleY + (x - frameX) / 10;
+    }
+    else
     {
         if (state == GLUT_DOWN)
             frameY = y;
         if (state == GLUT_UP)
-            objectAngle += y - frameY;
+            objectAngleX = objectAngleX + (y - frameY) / 10;
     }
-}
 
-void basculate(int x, int y)
-{
-    int angleLimit = 30;
-    int angleChange = x - frameX;
-
-    if ((angleChange > 0 && armAngle < angleLimit) || (angleChange < 0 && armAngle > -angleLimit))
-        armAngle += (x - frameX) / 2;
-
-    frameX = x;
     frameY = y;
+    frameX = x;        
 }
+
+// MENU FUNCTIONS
 
 void speed_menu(int id)
 {
     switch (id)
     {
     case 0:
-        coneSpinSpeed = 1.0f;
+        armSpinSpeed = 1.0f;
         break;
     case 1:
-        coneSpinSpeed = 4.0f;
+        armSpinSpeed = 4.0f;
         break;
     }
 }
@@ -428,42 +401,34 @@ void color_menu(int id)
 {
     switch (id)
     {
-    case 0:
-        // Light pastel yellow
+    case 0: // Amarillo
         cubeColors[0] = 0.949f;
         cubeColors[1] = 0.937f;
         cubeColors[2] = 0.694f;
-        // Darker yellow
         cubeColors[3] = 0.886f;
         cubeColors[4] = 0.874f;
         cubeColors[5] = 0.549f;
         break;
-    case 1:
-        // Light pastel red
+    case 1: // Rojo
         cubeColors[0] = 0.949f;
         cubeColors[1] = 0.788f;
         cubeColors[2] = 0.788f;
-        // Darker red
         cubeColors[3] = 0.749f;
         cubeColors[4] = 0.396f;
         cubeColors[5] = 0.396f;
         break;
-    case 2:
-        // Light pastel blue
-        cubeColors[0] = 0.690f;
-        cubeColors[1] = 0.878f;
-        cubeColors[2] = 0.902f;
-        // Darker blue
-        cubeColors[3] = 0.529f;
-        cubeColors[4] = 0.725f;
-        cubeColors[5] = 0.752f;
+    case 2: // Azul
+        cubeColors[0] = 0.6f;
+        cubeColors[1] = 0.8f;
+        cubeColors[2] = 1.0f;
+        cubeColors[3] = 0.5f;
+        cubeColors[4] = 0.7f;
+        cubeColors[5] = 0.9f;
         break;
-    case 3:
-        // Light pastel green
+    case 3: // Verde
         cubeColors[0] = 0.678f;
         cubeColors[1] = 0.847f;
         cubeColors[2] = 0.706f;
-        // Darker green
         cubeColors[3] = 0.549f;
         cubeColors[4] = 0.729f;
         cubeColors[5] = 0.529f;
@@ -481,7 +446,7 @@ void main_menu(int id)
     }
 }
 
-void menu()
+void menuFunc()
 {
     int submenu = glutCreateMenu(color_menu);
     glutAddMenuEntry("Amarillo", 0);
@@ -526,40 +491,55 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glRotatef(90.0, 1.0f, 0.0f, 0.0f); // angle correction
+    // AJUSTES ANTES DE RENDERIZAR
+
+    armSpinFunc(); // giro automático del brazo.
+    glTranslatef(0.0f, -5.0f, 0.0f); // bajamos todo el render para que no sobresalga la noria.
+
+    // RENDERIZADO DEL CILINDRO
+
+    glRotatef(90.0, 1.0f, 0.0f, 0.0f); // corregimos la posición del render.
     drawCylinder(4.0, 1.5, GL_TRUE);
 
-    GLfloat cone_length = 2.0f;
-    GLfloat cone_height = 5.0f;
+    // RENDERIZADO DEL CONO
 
-    glRotatef(-90.0, 1.0f, 0.0f, 0.0f); // angle correction
+    GLfloat cone_length = 1.0f;
+    GLfloat cone_height = 7.5f;
+
+    glRotatef(-90.0, 1.0f, 0.0f, 0.0f); // corregimos la posición del render.
     drawFlatCone(cone_length, 3.5, cone_height);
+
+    // RENDERIZADO DEL BRAZO
 
     GLfloat cube_size = 1.0f;
     GLfloat cube_length = 6.0f;
 
-    glTranslatef(0.0f, cone_height, (cone_length + cube_size) / 2);
-    glRotatef(-90.0, 0.0f, 0.0f, 1.0f);
+    glTranslatef(0.0f, cone_height, (cone_length + cube_size) / 2); // corregimos la posición del render.
+    glRotatef(-90.0, 0.0f, 0.0f, 1.0f); // en este caso porque escala sobre el eje vertical.
 
-    drawArm(cube_size, cube_length, GL_FALSE);
+    drawArm(cube_size, cube_length, GL_TRUE);
+
+    // RENDERIZADO DE LA PLATAFORMA
 
     GLfloat platform_size = 3.0f;
     GLfloat platform_height = 0.5f;
 
-    glRotatef(90.0, 0.0f, 0.0f, 1.0f);
+    glRotatef(90.0, 0.0f, 0.0f, 1.0f); // corregimos la posición del render.
     glTranslatef(cube_length * cube_size, 0.0, (platform_size + cube_size) / 2);
+    glRotatef(-armAngle, 0.0f, 0.0f, 1.0f); // compensamos por la rotación del brazo.
 
     drawSquareBase(platform_size, platform_height);
 
+    // RENDERIZADO DE LOS CUBOS
+
     GLfloat cubes_shape = 0.9f;
 
-    glRotatef(90.0, 1.0f, 0.0f, 0.0f);
+    glRotatef(90.0, 1.0f, 0.0f, 0.0f); // corregimos la posición del render.
     glTranslatef(0.0, 0.0, - (platform_size * platform_height) / 2);
 
     drawFourCubes(cubes_shape, cubes_shape - 0.1f);
 
-
-
+    // FINALIZAMOS EL RENDERIZADO
 
     glFlush();
     glutSwapBuffers();
@@ -593,10 +573,9 @@ int main(int argc, char **argv)
     glutReshapeFunc(reshape);
     glutIdleFunc(idle);
 
-    glutMouseFunc(rotate);
-    glutPassiveMotionFunc(basculate); // TODO: Arreglar el error.
-    glutKeyboardFunc(keyboard);
-    menu(); // TODO: Arreglar el error.
+    glutMouseFunc(mouseRotateFunc);
+    glutKeyboardFunc(keyboardFunc);
+    menuFunc();
 
     glutMainLoop();
 
