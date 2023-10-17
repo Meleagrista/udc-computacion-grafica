@@ -8,6 +8,11 @@
 GLint ancho = 400;
 GLint alto = 400;
 
+// Variables para el control del tiempo
+int currentTime = 0;
+int previousTime = 0;
+float deltaTime = 0.0;
+
 int frameX;
 int frameY;
 
@@ -330,6 +335,11 @@ void keyboardFunc(unsigned char key, int x, int y)
 
 void armSpinFunc()
 {
+    // Calcula el tiempo transcurrido desde el último fotograma
+    currentTime = glutGet(GLUT_ELAPSED_TIME);
+    deltaTime = (currentTime - previousTime) / 10.0;
+
+    // Actualiza la escena basada en el tiempo transcurrido
     int gravity = 2;
 
     if (armSpinReverse)
@@ -348,11 +358,14 @@ void armSpinFunc()
         }
        
         if (armSpinReverse)
-            armAngle = armAngle + (armSpinSpeed / gravity);
+            armAngle = armAngle + (armSpinSpeed / gravity) * deltaTime;
         else
-            armAngle = armAngle - (armSpinSpeed / gravity);
-        //printf("%f\n", armAngle);    
-    }
+            armAngle = armAngle - (armSpinSpeed / gravity) * deltaTime;
+     }        
+
+    // Vuelve a registrar el temporizador
+    previousTime = currentTime;
+    glutTimerFunc(16, armSpinFunc, 0);
 }
 
 void mouseRotateFunc(int button, int state, int x, int y)
@@ -491,7 +504,7 @@ void display()
 
     // AJUSTES ANTES DE RENDERIZAR
 
-    armSpinFunc(); // giro automático del brazo.
+    //armSpinFunc(); // giro automático del brazo.
     glTranslatef(0.0f, -5.0f, 0.0f); // bajamos todo el render para que no sobresalga la noria.
 
     // RENDERIZADO DEL CILINDRO
@@ -573,6 +586,7 @@ int main(int argc, char **argv)
 
     glutMouseFunc(mouseRotateFunc);
     glutKeyboardFunc(keyboardFunc);
+    glutTimerFunc(0, armSpinFunc, 0);
     menuFunc();
 
     glutMainLoop();
