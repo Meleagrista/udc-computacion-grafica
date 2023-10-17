@@ -19,7 +19,7 @@ GLboolean armSpin = GL_TRUE;
 GLboolean armSpinReverse = GL_FALSE;
 GLfloat armSpinSpeed = 1.0f;
 
-GLfloat cubeColors[] = {0.949f, 0.937f, 0.694f, 0.886f, 0.874f, 0.549f};
+GLfloat cubeColors[] = {0.678f, 0.847f, 0.706f, 0.549f, 0.729f, 0.529f};
 
 int hazPerspectiva = 0;
 
@@ -69,7 +69,6 @@ void drawFourCubes(GLdouble base, GLdouble space)
 
         glColor3f(cubeColors[0], cubeColors[1], cubeColors[2]); // Colores para caras laterales
 
-        // Cara frontal
         glBegin(GL_QUADS);
         glVertex3f(-size, size, size);
         glVertex3f(size, size, size);
@@ -77,7 +76,6 @@ void drawFourCubes(GLdouble base, GLdouble space)
         glVertex3f(-size, size, -size);
         glEnd();
 
-        // Cara trasera
         glBegin(GL_QUADS);
         glVertex3f(-size, -size, size);
         glVertex3f(size, -size, size);
@@ -85,9 +83,6 @@ void drawFourCubes(GLdouble base, GLdouble space)
         glVertex3f(-size, -size, -size);
         glEnd();
 
-        //glColor3f(cubeColors[3], cubeColors[4], cubeColors[5]);
-
-        // Cara derecha
         glBegin(GL_QUADS);
         glVertex3f(size, -size, size);
         glVertex3f(size, size, size);
@@ -95,7 +90,6 @@ void drawFourCubes(GLdouble base, GLdouble space)
         glVertex3f(size, -size, -size);
         glEnd();
 
-        // Cara izquierda
         glBegin(GL_QUADS);
         glVertex3f(-size, -size, size);
         glVertex3f(-size, size, size);
@@ -394,6 +388,9 @@ void speed_menu(int id)
     case 1:
         armSpinSpeed = 4.0f;
         break;
+    case 2:
+        armSpinSpeed = 8.0f;
+        break;
     }
 }
 
@@ -457,6 +454,7 @@ void menuFunc()
     int submenu2 = glutCreateMenu(speed_menu);
     glutAddMenuEntry("Normal", 0);
     glutAddMenuEntry("Rapido", 1);
+    glutAddMenuEntry("Turbo", 2);
 
     glutCreateMenu(main_menu);
     glutAddSubMenu("Colores", submenu);
