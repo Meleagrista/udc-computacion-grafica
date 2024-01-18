@@ -1,6 +1,15 @@
 # computacion-grafica-visualizacion
 Este repositorio es un espacio dedicado a la recopilación y gestión de archivos y recursos relacionados con mi asignatura de Computación Gráfica y Visualización.
 
+# Notas
+1. _Martes, 31 de Outubro de 2023, 21:16_: **9,75 / 10,00**
+- **Motivo**: No se utilizan estructuras y/o vectores para almacenar las posiciones.
+2. _Martes, 10 de Outubro de 2023, 17:03_: **9,00 / 10,00**
+- **Motivo**: Se hace sin Timers.
+## Nota de la parte practica del examen.
+3. _Martes, 24 de Outubro de 2023, 16:50_: **7,50 / 8,00**
+- **Motivo**: Se registran las pulsaciones pero alguna de las acciones que implican sólo al teclado no funcionan. La tecla 's' se para en el sitio en el que está y la perspectiva no cambia.
+
 # Recomendaciones
 Desde mi experiencia personal, he encontrado que llevar a cabo estas prácticas es considerablemente más efectivo en un entorno Linux. 
 Aunque teóricamente es posible realizarlas en Windows mediante la instalación de Windows Subsystem for Linux (WSL), en mi caso, después de haber intentado esta configuración, me encontré con dificultades persistentes que afectaron mi capacidad de trabajo. 
