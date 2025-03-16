@@ -38,7 +38,7 @@ Más información en la **[guía docente oficial](https://guiadocente.udc.es/gui
 La evaluación de la asignatura se basa en **prácticas de laboratorio**, **trabajos tutelados** y una **prueba objetiva**. A continuación, se detallan los criterios y métodos utilizados para la calificación de los estudiantes.
 
 > [!Warning]
-> No se sabe con certeza que procentaje de la nota supen cada avctividad
+> No se sabe con certeza que porcentaje de la nota supone cada actividad.
 
 ### Criterios de evaluación y calificación
 1. **Prácticas de laboratorio**: Durante las sesiones de prácticas, los alumnos deben completar ejercicios diarios guiados por un tutorial online, que son corregidos y puntuados en el momento por el profesor. Además, al finalizar cada bloque, se lleva a cabo una práctica final más compleja en la que deberán aplicar lo aprendido sin una guía detallada.
