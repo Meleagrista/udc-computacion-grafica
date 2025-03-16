@@ -28,7 +28,7 @@
 # Sobre _Computación Gráfica y Visualización_
 La asignatura **Computación Gráfica y Visualización** es una materia optativa del cuarto curso del **Grado en Ingeniería Informática**, de la mención de **Computación**, impartida en el primer cuatrimestre y con una carga de **6 créditos**. 
 
-> Su objetivo principal es presentar al alumnado los conceptos básicos de gráficos en computación, permitiendo adquirir la destreza necesaria para desarrollar aplicaciones informáticas que integren gráficos 3D en su interfaz o contenidos.
+> Presentar al alumno los conceptos básicos de Gráficos en Computación para adquirir una destreza suficiente para el desarrollo de aplicaciones informáticas que utilicen gráficos 3D en su interfaz o contenidos.
 
 Más información en la **[guía docente oficial](https://guiadocente.udc.es/guia_docent/index.php?centre=614&ensenyament=614G01&assignatura=614G01066&idioma=cast&any_academic=2024_25)**.
 
