@@ -36,33 +36,33 @@ Más información en la **[guía docente oficial](https://guiadocente.udc.es/gui
   <summary>Tabla de Contenidos</summary>
   <ol>
     <li>
-      <a href="#evaluación">Evaluación</a>
+      <a href="#evaluación-de-la-materia">Evaluación de la materia</a>
       <ul>
         <li><a href="#criterios-de-evaluación-y-calificación">Criterios de evaluación y calificación</a></li>
         <li><a href="#calificaciones-de-las-prácticas-de-laboratorio">Calificaciones de las prácticas de laboratorio</a></li>
       </ul>
     </li>
     <li>
-      <a href="#primeros-pasos">Primeros pasos</a>
+      <a href="#primeros-pasos">Primeros Pasos</a>
       <ul>
-        <li><a href="#requisitos-previos">Requisitos Previos</a></li>
+        <li><a href="#requisitos-previos">Requisitos previos</a></li>
         <li><a href="#guía-de-instalación">Guía de instalación</a></li>
         <li><a href="#guía-de-uso">Guía de uso</a>
         </li>
       </ul>
     </li>
     <li>
-      <a href="#contribuir-al-proyecto">Contribuir al Proyecto</a>
+      <a href="#contribuir-al-proyecto">Contribuir al proyecto</a>
       <ul>
         <li><a href="#cómo-contribuir">¿Cómo contribuir?</a></li>
-        <li><a href="#contribuyentes-destacados">Contribuyentes Destacados</a></li>
+        <li><a href="#contribuyentes-destacados">Contribuyentes destacados</a></li>
       </ul>
     </li>
     <li><a href="#contactos">Contactos</a></li>
   </ol>
 </details>
 
-## Evaluación
+## Evaluación de la materia
 La evaluación de la asignatura se basa en **prácticas de laboratorio**, **trabajos tutelados** y una **prueba objetiva**. A continuación, se detallan los criterios y métodos utilizados para la calificación de los estudiantes.
 
 > [!Warning]
@@ -101,7 +101,7 @@ Estas prácticas requieren que los alumnos realicen un trabajo más complejo, ap
 # Primeros pasos
 Este proyecto consiste en la implementación de prácticas de gráficos en **OpenGL** utilizando la biblioteca **GLUT** en un entorno Linux. A continuación, se detallan los pasos para instalar las dependencias necesarias, configurar el entorno de desarrollo y compilar los ejemplos.  
 
-## Requisitos Previos  
+## Requisitos previos  
 Para ejecutar las prácticas, es necesario instalar las siguientes bibliotecas en tu sistema:  
 - `freeglut3`  
 - `freeglut3-dev`  
@@ -153,7 +153,7 @@ Si prefieres compilar manualmente, puedes usar el siguiente comando cada vez que
 gcc ejemplo.c -o ejemplo -lGL -lGLU -lglut
 ```
 
-# Contribuir al Proyecto
+# Contribuir al proyecto
 Si tienes una sugerencia para mejorar este proyecto, puedes hacer un **fork** del repositorio y crear un **pull request**, o simplemente abrir un **issue** para discutirlo.  
 
 Todas las contribuciones son **enormemente apreciadas**. ¡Gracias por tu apoyo!  
